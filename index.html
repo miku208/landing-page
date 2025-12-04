@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TahuNiverse - Minecraft Server Indonesia</title>
+    <meta name="description" content="Server Minecraft Indonesia terbaik dengan komunitas ramah dan gameplay seru!">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="/logo.png" alt="Tahu Isi Logo" id="serverLogo">
+                <span class="logo-text">TahuNiverse</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#home" class="nav-link active">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                <a href="#features" class="nav-link">
+                    <i class="fas fa-star"></i> Features
+                </a>
+                <a href="#server" class="nav-link">
+                    <i class="fas fa-server"></i> Server Info
+                </a>
+                <a href="#community" class="nav-link">
+                    <i class="fas fa-users"></i> Community
+                </a>
+            </div>
+            <button class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">
+                    <span class="highlight">TahuNiverse</span>
+                </h1>
+                <h2 class="hero-subtitle">Minecraft Server Indonesia</h2>
+                <p class="hero-description">
+                    Bergabunglah dengan server Minecraft terbaik di Indonesia! 
+                    Komunitas ramah, gameplay seru, dan berbagai fitur menarik 
+                    menanti Anda.
+                </p>
+                
+                <!-- Server Status -->
+                <div class="status-container">
+                    <div class="server-status" id="serverStatus">
+                        <div class="status-indicator loading"></div>
+                        <div class="status-text">Checking server...</span>
+                    </div>
+                    <div class="player-count" id="playerCount">
+                        <i class="fas fa-users"></i>
+                        <span>Online: <span id="onlineCount">-</span>/<span id="maxCount">-</span></span>
+                    </div>
+                </div>
+
+                <!-- Server IP -->
+                <div class="server-info">
+                    <div class="ip-container" onclick="copyIP()">
+                        <div class="ip-label">
+                            <i class="fas fa-server"></i>
+                            Server IP:
+                        </div>
+                        <div class="ip-address" id="serverIP">
+                            play.tahuisi.net
+                        </div>
+                        <div class="copy-hint">
+                            <i class="fas fa-copy"></i> Klik untuk copy
+                        </div>
+                    </div>
+                    <div class="port-info">
+                        <i class="fas fa-plug"></i>
+                        Port: <span>19155</span>
+                    </div>
+                </div>
+
+                <!-- CTA Buttons -->
+                <div class="hero-buttons">
+                    <a href="#server" class="cta-btn primary">
+                        <i class="fas fa-gamepad"></i>
+                        Join Server
+                    </a>
+                    <a href="#features" class="cta-btn secondary">
+                        <i class="fas fa-star"></i>
+                        View Features
+                    </a>
+                </div>
+            </div>
+           
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="section-header">
+            <h2 class="section-title">🌟 Server Features</h2>
+            <p class="section-subtitle">Berbagai fitur menarik yang membuat gameplay lebih seru</p>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3 class="feature-title">Anti-Cheat System</h3>
+                <p class="feature-desc">
+                    Sistem anti-cheat canggih untuk gameplay yang fair dan menyenangkan bagi semua pemain.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-coins"></i>
+                </div>
+                <h3 class="feature-title">Economy System</h3>
+                <p class="feature-desc">
+                    Sistem ekonomi yang seimbang dengan berbagai cara menghasilkan uang dalam game.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-home"></i>
+                </div>
+                <h3 class="feature-title">Land Protection</h3>
+                <p class="feature-desc">
+                    Lindungi bangunan Anda dengan sistem klaim tanah yang aman dari griefing.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-gift"></i>
+                </div>
+                <h3 class="feature-title">Daily Rewards</h3>
+                <p class="feature-desc">
+                    Login setiap hari untuk mendapatkan reward eksklusif dan bonus menarik.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-globe-asia"></i>
+                </div>
+                <h3 class="feature-title">Custom Worlds</h3>
+                <p class="feature-desc">
+                    Jelajahi dunia custom dengan biome unik dan struktur menarik.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-tools"></i>
+                </div>
+                <h3 class="feature-title">Custom Plugins</h3>
+                <p class="feature-desc">
+                    Plugin custom yang dirancang khusus untuk pengalaman bermain terbaik.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Server Info Section -->
+    <section class="server-info-section" id="server">
+        <div class="section-header">
+            <h2 class="section-title">🎮 Server Information</h2>
+            <p class="section-subtitle">Semua yang perlu Anda ketahui tentang server kami</p>
+        </div>
+        
+        <div class="info-container">
+            <div class="info-card">
+                <div class="info-icon">
+                    <i class="fas fa-microchip"></i>
+                </div>
+                <div class="info-content">
+                    <h3>Server Specs</h3>
+                    <ul>
+                        <li><strong>RAM:</strong> 2GB DDR4</li>
+                        <li><strong>CPU:</strong> Intel Xeon 4 Core</li>
+                        <li><strong>Storage:</strong> NVMe SSD</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="info-card">
+                <div class="info-icon">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <div class="info-content">
+                    <h3>Rules & Guidelines</h3>
+                    <ul>
+                        <li>No hacking/cheating</li>
+                        <li>Respect all players</li>
+                        <li>No griefing/stealing</li>
+                        <li>Have fun!</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- How to Join -->
+        <div class="join-guide">
+            <h3 class="guide-title">How to Join</h3>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Copy Server IP</h4>
+                        <p>Klik IP server di atas untuk menyalinnya</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Open Minecraft</h4>
+                        <p>Buka Minecraft dan pilih "server/multiplayer"</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Add Server</h4>
+                        <p>Tambah server baru dan paste IP yang disalin</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Join & Play!</h4>
+                        <p>Klik join dan mulai petualangan Anda!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Section -->
+    <section class="community" id="community">
+        <div class="section-header">
+            <h2 class="section-title">🤝 Join Our Community</h2>
+            <p class="section-subtitle">Terhubung dengan pemain lain dan dapatkan update terbaru</p>
+        </div>
+        
+        <div class="community-content">
+            <div class="community-text">
+                <h3>Why Join Our Community?</h3>
+                <ul class="community-list">
+                    <li><i class="fas fa-check-circle"></i> Dapatkan info event dan update terbaru</li>
+                    <li><i class="fas fa-check-circle"></i> Tanya jawab dengan admin dan moderator</li>
+                    <li><i class="fas fa-check-circle"></i> Bagikan build dan achievement Anda</li>
+                    <li><i class="fas fa-check-circle"></i> Cari teman untuk bermain bersama</li>
+                    <li><i class="fas fa-check-circle"></i> Voting untuk fitur baru server</li>
+                </ul>
+                
+                <div class="community-stats">
+                    <div class="stat">
+                        <div class="stat-number" id="communityCount">500+</div>
+                        <div class="stat-label">Community Members</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Active Support</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Friendly Environment</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="/logo.png" alt="Tahu Isi Logo">
+                <div class="logo-text">
+                    <h3>TahuNiverse</h3>
+                    <p>Minecraft Server Indonesia</p>
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <div class="link-group">
+                    <h4>Quick Links</h4>
+                    <a href="#home"><i class="fas fa-home"></i> Home</a>
+                    <a href="#features"><i class="fas fa-star"></i> Features</a>
+                    <a href="#server"><i class="fas fa-server"></i> Server Info</a>
+                    <a href="#community"><i class="fas fa-users"></i> Community</a>
+                </div>
+                
+                <div class="link-group">
+                    <h4>Server</h4>
+                    <a href="#" onclick="copyIP(); return false;"><i class="fas fa-copy"></i> Copy IP</a>
+                    <a href="#server"><i class="fas fa-gamepad"></i> How to Join</a>
+                    <a href="#community"><i class="fas fa-gavel"></i> Rules</a>
+                    <a href="#features"><i class="fas fa-tools"></i> Plugins</a>
+                </div>
+                
+                <div class="link-group">
+                    <h4>Support</h4>
+                    <a href="#community"><i class="fas fa-question-circle"></i> Help Center</a>
+                    <a href="#community"><i class="fas fa-flag"></i> Report Issue</a>
+                    <a href="#server"><i class="fas fa-info-circle"></i> FAQ</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 TahuNiverse. All rights reserved.</p>
+            <p class="powered-by">Powered by <span>Dynnx & MikuHost</span></p>
+        </div>
+    </footer>
+
+    <!-- Floating Social Media Circles -->
+    <div class="social-float">
+        <!-- WhatsApp -->
+        <a href="https://whatsapp.com" target="_blank" class="social-circle whatsapp" 
+           data-tooltip="Join WhatsApp Group">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+        
+        <!-- Discord -->
+        <a href="https://discord.gg/example" target="_blank" class="social-circle discord"
+           data-tooltip="Join Discord Server">
+            <i class="fab fa-discord"></i>
+        </a>
+        
+        <!-- TikTok -->
+        <a href="https://tiktok.com" target="_blank" class="social-circle tiktok"
+           data-tooltip="Follow on TikTok">
+            <i class="fab fa-tiktok"></i>
+        </a>
+        
+        <!-- Toggle Button -->
+        <button class="social-toggle">
+            <i class="fas fa-plus"></i>
+        </button>
+    </div>
+
+    <!-- Copy Notification -->
+    <div class="notification" id="copyNotification">
+        <i class="fas fa-check-circle"></i>
+        <span>Server IP copied to clipboard!</span>
+    </div>
+    
+    <!-- AI Chat Bubble -->
+<div class="chat-bubble" id="chatBubble">
+  <i class="fas fa-robot"></i>
+</div>
+
+<div class="chat-box" id="chatBox">
+  <div class="chat-header">
+    <i class="fas fa-robot"></i>
+    <span>TahuNiverse AI</span>
+    <button id="closeChat"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="chat-body" id="chatBody">
+    <div class="bot-message">Halo! Aku AI dari TahuNiverse 🤖<br>Ada yang bisa aku bantu?</div>
+  </div>
+  <div class="chat-input">
+    <input type="text" id="chatInput" placeholder="Ketik pesan...">
+    <button id="sendBtn"><i class="fas fa-paper-plane"></i></button>
+  </div>
+</div>
+
+    <script src="script.js"></script>
+</body>
+</html>
