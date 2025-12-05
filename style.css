@@ -261,6 +261,152 @@ body {
 
 */
 
+/* STORE PAGE */
+/* Banner Container */
+.store-banner {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    border-radius: 0 0 20px 20px;
+    margin-bottom: 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+/* Banner Video */
+.store-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(70%);
+}
+
+/* Overlay Gradient */
+.store-banner-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.3), rgba(0,0,0,0.8));
+}
+
+/* Banner Text */
+.store-banner-text {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    z-index: 5;
+}
+
+.store-banner-text h1 {
+    font-size: 2.5rem;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+}
+
+.store-banner-text p {
+    color: #e2e8f0;
+    font-size: 1.1rem;
+}
+
+/* Store Container */
+.store-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+    padding: 2rem 0;
+}
+
+.store-title {
+    font-size: 2rem;
+    color: var(--primary);
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+/* Product Grid */
+.store-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Each Card */
+.store-card {
+    background: #0f172a;
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: 0.3s ease;
+}
+
+.store-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+/* Title & Price */
+.store-card h3 {
+    font-size: 1.5rem;
+    color: #fff;
+    margin-bottom: 0.5rem;
+}
+
+.store-price {
+    font-size: 1.3rem;
+    color: var(--primary);
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+/* Benefits */
+.store-benefit {
+    color: #cbd5e1;
+    margin-bottom: 5px;
+    font-size: 0.95rem;
+}
+
+/* Buy Button */
+.buy-btn {
+    margin-top: 1rem;
+    width: 100%;
+    background: var(--primary);
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.buy-btn:hover {
+    opacity: 0.8;
+}
+
+/* store button float*/
+.store-float {
+    position: fixed;
+    bottom: 75px;
+    left: 20px;
+    background: orange;
+    color: black;
+    font-size: 20px;
+    width: 45px;
+    height: 45px;
+    border-radius: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 15px rgba(255,165,0,0.6);
+    z-index: 999;
+    transition: 0.2s;
+}
+
+.store-float:hover {
+    transform: scale(1.1);
+    background: #ffb84d;
+}
+
 /* === AI Chat Bubble === */
 .chat-bubble {
   position: fixed;

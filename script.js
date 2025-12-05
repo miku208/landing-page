@@ -206,6 +206,18 @@ function initializeScrollAnimations() {
     });
 }
 
+//store
+
+function buyItem(itemName) {
+    const ownerNumber = "6281234567890"; // ganti nomor owner lu
+
+    const text = `Halo kak, saya ingin membeli *${itemName}*.\nMohon info lebih lanjut 🙏`;
+
+    const waURL = `https://wa.me/${ownerNumber}?text=${encodeURIComponent(text)}`;
+
+    window.open(waURL, "_blank");
+}
+
 // Initialize mobile menu
 function initializeMobileMenu() {
     const menuToggle = document.querySelector('.menu-toggle');
@@ -406,6 +418,9 @@ function appendMessage(sender, text) {
   chatBody.appendChild(div);
   chatBody.scrollTop = chatBody.scrollHeight;
 }
+
+
+
 
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
