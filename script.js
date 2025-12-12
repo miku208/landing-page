@@ -8,6 +8,325 @@ const CONFIG = {
     tiktokLink: 'https://www.tiktok.com/@tahuisi.net'
 };
 
+// ===== TELEGRAM VISITOR TRACKER =====
+// Tambahkan di BAWAH CONFIG, di ATAS fungsi initializeConfig()
+
+class TelegramTracker {
+    constructor() {
+        // ⚠️ GANTI DENGAN TOKEN BOT ANDA ⚠️
+        this.botToken = '8306978518:AAE-msgLTZJA92a6r7vB0JEQXkm4aSw-ZxE'; // Token bot tracker
+        this.chatId = '8115247024'; // ID channel/group
+        
+        this.queue = [];
+        this.isSending = false;
+        this.sessionId = 'sess_' + Math.random().toString(36).substr(2, 9);
+        this.hasTrackedPageView = false;
+    }
+    
+    // Format message untuk Telegram
+    formatMessage(type, data) {
+        const time = new Date().toLocaleTimeString('id-ID', { 
+            hour: '2-digit', 
+            minute: '2-digit' 
+        });
+        const date = new Date().toLocaleDateString('id-ID');
+        
+        switch(type) {
+            case 'pageview':
+                return `📊 <b>VISITOR - ${data.page}</b>
+📅 ${date} 🕐 ${time}
+📍 IP: <code>${data.ip || 'fetching...'}</code>
+📱 ${data.device || 'Desktop'}`;
+
+            case 'social':
+                return `🔗 <b>SOCIAL CLICK</b>
+📅 ${date} 🕐 ${time}
+📱 ${data.platform}
+🌐 Halaman: ${data.page}`;
+
+            case 'copy':
+                return `📋 <b>IP COPIED</b>
+📅 ${date} 🕐 ${time}
+🌐 Halaman: ${data.page}
+👤 IP: ${data.ip || 'unknown'}`;
+
+            default:
+                return `📌 <b>ACTIVITY</b>
+📅 ${date} 🕐 ${time}
+🎯 ${data.action || 'Unknown'}
+🌐 ${data.page || 'Home'}`;
+        }
+    }
+    
+    // Kirim ke Telegram
+    async sendToTelegram(message) {
+        try {
+            // Timeout 3 detik
+            const controller = new AbortController();
+            const timeout = setTimeout(() => controller.abort(), 3000);
+            
+            const response = await fetch(`https://api.telegram.org/bot${this.botToken}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: this.chatId,
+                    text: message,
+                    parse_mode: 'HTML',
+                    disable_notification: true // Tidak bunyi
+                }),
+                signal: controller.signal
+            });
+            
+            clearTimeout(timeout);
+            return response.ok;
+            
+        } catch (error) {
+            console.log('Telegram error (silent):', error.message);
+            return false;
+        }
+    }
+    
+    // Get IP dari public API
+    async getVisitorIP() {
+        try {
+            // Coba API pertama
+            const res = await fetch('https://api.ipify.org?format=json', {
+                signal: AbortSignal.timeout(2000)
+            });
+            const data = await res.json();
+            return data.ip || 'unknown';
+        } catch {
+            return 'unknown';
+        }
+    }
+    
+    // Deteksi device
+    getDeviceType() {
+        const ua = navigator.userAgent.toLowerCase();
+        if (/mobile|android|iphone|ipad/.test(ua)) return 'Mobile';
+        if (/tablet|ipad/.test(ua)) return 'Tablet';
+        return 'Desktop';
+    }
+    
+    // Get browser name
+    getBrowser() {
+        const ua = navigator.userAgent;
+        if (ua.includes('Chrome')) return 'Chrome';
+        if (ua.includes('Firefox')) return 'Firefox';
+        if (ua.includes('Safari') && !ua.includes('Chrome')) return 'Safari';
+        if (ua.includes('Edg')) return 'Edge';
+        return 'Other';
+    }
+    
+    // Queue system
+    async addToQueue(type, data) {
+        this.queue.push({ type, data, time: Date.now() });
+        if (!this.isSending) {
+            this.processQueue();
+        }
+    }
+    
+    async processQueue() {
+        if (this.queue.length === 0) {
+            this.isSending = false;
+            return;
+        }
+        
+        this.isSending = true;
+        const item = this.queue.shift();
+        
+        try {
+            // Untuk pageview pertama, fetch IP
+            if (item.type === 'pageview' && !window._visitorIP) {
+                window._visitorIP = await this.getVisitorIP();
+            }
+            
+            // Tambahkan IP jika ada
+            if (window._visitorIP) {
+                item.data.ip = window._visitorIP;
+            }
+            
+            // Tambahkan device info
+            if (!item.data.device) {
+                item.data.device = `${this.getDeviceType()} • ${this.getBrowser()}`;
+            }
+            
+            // Format dan kirim
+            const message = this.formatMessage(item.type, item.data);
+            await this.sendToTelegram(message);
+            
+        } catch (error) {
+            // Silent fail
+        }
+        
+        // Delay sebelum process berikutnya
+        setTimeout(() => this.processQueue(), 800);
+    }
+    
+    // Fungsi track utama
+    track(type, data) {
+        this.addToQueue(type, data);
+    }
+}
+
+// ===== INISIALISASI TRACKER =====
+const tracker = new TelegramTracker();
+
+// ===== FUNGSI HELPER =====
+function getCurrentPage() {
+    const hash = window.location.hash.substring(1);
+    if (hash) {
+        return hash.charAt(0).toUpperCase() + hash.slice(1).replace('-', ' ');
+    }
+    return 'Home';
+}
+
+// ===== FUNGSI TRACKING =====
+function trackPageView() {
+    if (tracker.hasTrackedPageView) return;
+    
+    tracker.track('pageview', {
+        page: getCurrentPage(),
+        referrer: document.referrer || 'Direct'
+    });
+    
+    tracker.hasTrackedPageView = true;
+}
+
+function trackSocialClick(platform) {
+    tracker.track('social', {
+        platform: platform,
+        page: getCurrentPage()
+    });
+}
+
+function trackCopyIP() {
+    tracker.track('copy', {
+        page: getCurrentPage(),
+        action: 'Copied Server IP'
+    });
+}
+
+function trackServerCheck() {
+    tracker.track('server_check', {
+        page: 'Server Status',
+        action: 'Checked server status'
+    });
+}
+
+// ===== INTEGRASI DENGAN FUNGSI EXISTING =====
+
+// Override copyIP function
+const originalCopyIP = window.copyIP;
+if (originalCopyIP) {
+    window.copyIP = function() {
+        trackCopyIP();
+        return originalCopyIP();
+    };
+}
+
+// Override checkServerStatus untuk tracking
+const originalCheckServerStatus = window.checkServerStatus;
+if (originalCheckServerStatus) {
+    window.checkServerStatus = async function() {
+        try {
+            const result = await originalCheckServerStatus();
+            trackServerCheck();
+            return result;
+        } catch (error) {
+            trackServerCheck();
+            throw error;
+        }
+    };
+}
+
+// ===== SETUP EVENT LISTENERS =====
+function setupTracking() {
+    // Track page view dengan delay 3 detik
+    setTimeout(() => {
+        trackPageView();
+    }, 3000);
+    
+    // Track social media clicks
+    document.addEventListener('click', function(e) {
+        const socialBtn = e.target.closest('.social-circle');
+        if (socialBtn) {
+            let platform = 'Unknown';
+            if (socialBtn.classList.contains('whatsapp')) platform = 'WhatsApp';
+            else if (socialBtn.classList.contains('discord')) platform = 'Discord';
+            else if (socialBtn.classList.contains('tiktok')) platform = 'TikTok';
+            
+            // Delay sedikit biar link terbuka dulu
+            setTimeout(() => {
+                trackSocialClick(platform);
+            }, 100);
+        }
+    });
+    
+    // Track navigation clicks
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', function() {
+            const pageName = this.textContent.trim().replace(/\s+/g, ' ');
+            tracker.track('navigation', {
+                page: pageName,
+                action: 'Navigation click'
+            });
+        });
+    });
+    
+    // Track CTA button clicks
+    document.querySelectorAll('.cta-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const btnText = this.textContent.trim().substring(0, 30);
+            tracker.track('cta_click', {
+                page: getCurrentPage(),
+                action: `Clicked: ${btnText}`
+            });
+        });
+    });
+    
+    // Track sebelum user keluar
+    window.addEventListener('beforeunload', () => {
+        tracker.track('exit', {
+            page: getCurrentPage(),
+            action: 'Left website'
+        });
+    });
+}
+
+// ===== INTEGRASI KE DOMContentLoaded =====
+// Tambahkan di DALAM DOMContentLoaded yang sudah ada:
+
+/*
+document.addEventListener('DOMContentLoaded', function() {
+    initializeConfig();
+    
+    // === TAMBAHKAN BARIS INI ===
+    setupTracking();
+    // === END TAMBAHKAN ===
+    
+    initializeSmoothScroll();
+    initializeScrollAnimations();
+    initializeMobileMenu();
+    initializeSocialToggle();
+    initializeActiveNav();
+    
+    checkServerStatus();
+    setInterval(checkServerStatus, 60000);
+});
+*/
+
+// ===== ALTERNATIF: INTEGRASI OTOMATIS =====
+// Jika tidak ingin edit DOMContentLoaded, tambahkan ini di AKHIR file:
+setTimeout(() => {
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setupTracking);
+    } else {
+        setupTracking();
+    }
+}, 1000);
+
+
 // Initialize configuration
 function initializeConfig() {
     // Set logo
